@@ -19,11 +19,10 @@ class mazeMain(QMainWindow):
 
         self.tboard = Board(self)
         self.setCentralWidget(self.tboard)
-        self.tboard.start()
 
         self.resize(GL._CANVAS_WIDTH, GL._CANVAS_HEIGHT)
         self.center()
-        self.setWindowTitle('Tetris')        
+        self.setWindowTitle('MazeCreator')        
         self.show()
 
         self.setFixedSize(self.tboard.width(),self.tboard.height())
@@ -40,8 +39,6 @@ class mazeMain(QMainWindow):
 
 if __name__ == '__main__':
 
-    os.system('MazeCreator.exe' + ' ' + str(GL._WIDTH)
-              + ' ' + str(GL._HEIGHT) + ' ' + str(GL._TRIES))
     GL.initGL()
 
     app = QApplication([])

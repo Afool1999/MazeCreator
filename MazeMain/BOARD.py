@@ -19,6 +19,8 @@ class BOARD(QFrame):
 
     def initBoard(self):
 
+        self.isInitialed = True
+        self.isStoped = True
         self.boardWidth = GL._WIDTH
         self.boardHeight = GL._HEIGHT
 
@@ -38,6 +40,7 @@ class BOARD(QFrame):
                 self.setShapeAt(i, j, (0, 0, 0))
 
         self.update()
+        self.isInitialed = True
 
 
     def readBoard(self):
@@ -48,7 +51,7 @@ class BOARD(QFrame):
                 color = GL.file.readTriple()
 
                 if (color == (-1, -1, -1)):
-                    self.timer.stop()
+                    self.stop()
                     return
                 else:
                     self.setShapeAt(i, j, color)
@@ -56,7 +59,15 @@ class BOARD(QFrame):
 
     def start(self):
 
+        self.isStoped = False
         self.timer.start(GL._CLOCK_TIME, self)
+
+
+    def stop(self):
+
+        self.isStoped = True
+        self.timer.stop()
+        self.isInitialed = False
 
 
     def paintEvent(self, event):
@@ -95,11 +106,24 @@ class BOARD(QFrame):
 
     def mousePressEvent(self, event):
 
-        os.system('MazeCreator.exe' + ' ' + str(GL._WIDTH)
-              + ' ' + str(GL._HEIGHT) + ' ' + str(GL._TRIES))
-        GL.initGL()
-        self.clearBoard()
-        self.timer.start(GL._CLOCK_TIME, self)
+        if (self.isStoped == True):
+
+            if (self.isInitialed == True):
+
+                os.system('MazeCreator.exe' + ' ' + str(GL._WIDTH)
+                    + ' ' + str(GL._HEIGHT) + ' ' + str(GL._TRIES))
+                GL.initGL()
+                self.clearBoard()
+                self.start()
+
+            else:
+                self.clearBoard()
+
+        else:
+            if (self.timer.isActive()):
+                self.timer.stop()
+            else:
+                self.timer.start(GL._CLOCK_TIME, self)
 
 
     def squareWidth(self):

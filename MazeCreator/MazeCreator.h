@@ -68,7 +68,7 @@ class MazeCreator
 	Array2D mazeMap;
 	vector <Room> roomList;
 
-	void generateRoom();
+	void generateRooms();
 	void generateWays();
 
 };
@@ -90,7 +90,7 @@ void MazeCreator::generate()
 	mazeMap.init(width, height);
 
 	roomList.clear();
-	generateRoom();
+	generateRooms();
 	generateWays();
 }
 
@@ -107,7 +107,7 @@ void MazeCreator::show()
 	//putchar('\n');
 }
 
-void MazeCreator::generateRoom()
+void MazeCreator::generateRooms()
 {
 	//	不断尝试生成房间
 	Room base;
@@ -137,6 +137,7 @@ void MazeCreator::generateRoom()
 	}
 }
 
+//	待完成
 void MazeCreator::generateWays()
 {
 

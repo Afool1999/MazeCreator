@@ -1,10 +1,9 @@
 #pragma once
 
-#include "Array2D.h"
+#include "blockArray2D.h"
 #include "CONSTS.h"
 #include "Coordinate.h"
 #include "Color.h"
-#include "BLOCK.h"
 
 class Room {
 
@@ -16,11 +15,11 @@ class Room {
 //	ÅÐ¶ÏÖØµþ
 //	bool isCollasped(const Room &other);
 
-	bool isCollasped(Array2D *_mazeMap);
+	bool isCollasped(blockArray2D *_mazeMap);
 	void show();
 	bool isNotValid();
 
-	void formInMap(Array2D *_mazeMap);
+	void formInMap(blockArray2D *_mazeMap);
 
 	private:
 
@@ -105,7 +104,7 @@ bool Room::isCollasped(const Room &other)
 }
 */
 
-bool Room::isCollasped(Array2D *_mazeMap)
+bool Room::isCollasped(blockArray2D *_mazeMap)
 {
 	for (int i = x; i < x + width; i++)
 	{
@@ -142,7 +141,7 @@ bool Room::isNotValid()
 	return flg;
 }
 
-void Room::formInMap(Array2D *_mazeMap)
+void Room::formInMap(blockArray2D *_mazeMap)
 {
 	BLOCK *_parrent = &((*_mazeMap)[x][y]);
 	_parrent->init(NULL, ROOM, roomColor);

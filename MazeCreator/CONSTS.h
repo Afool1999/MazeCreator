@@ -2,6 +2,9 @@
 
 #include "cstdlib"
 #include "Coordinate.h"
+#include "STJAlgorithm.h"
+
+#define _UNDER_TEST
 
 //	定义各类常量
 
@@ -15,9 +18,15 @@
 int _CANVAS_WIDTH = (40 << 1 | 1);
 int _CANVAS_HEIGHT = (25 << 1 | 1);
 
+int _WIDTH = 0;
+int _HEIGHT = 0;
+
 //	定义尝试生成房间的次数
 int _TRIES = (100);
 
+//	定义随机排列序号
+#define _MAX_STJ 24
+STJAlgorithm STJ[_MAX_STJ];
 
 //	定义 BLOCK 类型
 #define _BLOCK_TYPES (4)

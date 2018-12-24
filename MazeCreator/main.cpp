@@ -8,9 +8,23 @@
 #include "Room.h"
 #include "MazeCreator.h"
 #include "Coordinate.h"
+#include "boolArray2D.h"
+#include "STJAlgorithm.h"
 
 
+void init()
+{
+	_WIDTH = _CANVAS_WIDTH >> 1;
+	_HEIGHT = _CANVAS_HEIGHT >> 1;
 
+	STJAlgorithm base(4);
+
+	for (int i = 0; i < _MAX_STJ; i++)
+	{
+		STJ[i] = base;
+		base.findnxt();
+	}
+}
 
 int main(int argc, char *argv[])
 {
@@ -25,9 +39,14 @@ int main(int argc, char *argv[])
 		}
 	}
 
+	init();
+
+#ifndef _UNDER_TEST
 	freopen("data.in", "w", stdout);
+#endif // _UNDER_TEST
 
 	MazeCreator mz;
+	mz.test();
 
 	return 0;
 }

@@ -148,7 +148,7 @@ class BOARD(QFrame):
 
     def drawSquare(self, painter, x, y, shape):      
 
-        print("block ({%d},{%d}) formed.\n" % (x, y))
+        #print("block ({%d},{%d}) formed.\n" % (x, y))
 
         color = QColor(*shape.color)
         painter.fillRect(x + 1, y + 1, self.squareWidth() - 2, 

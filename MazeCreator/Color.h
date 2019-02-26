@@ -34,7 +34,7 @@ void Color::show()
 
 void Color::rand()
 {
-	R = randomBetween(55, 255);
-	G = randomBetween(55, 255);
-	B = randomBetween(55, 255);
+	R = randomBetween(_MIN_COLOR, _MAX_COLOR);
+	G = randomBetween(_MIN_COLOR, _MAX_COLOR);
+	B = randomBetween(_MIN_COLOR, _MAX_COLOR);
 }

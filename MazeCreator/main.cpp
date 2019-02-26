@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 #endif // _UNDER_TEST
 
 	MazeCreator mz;
-	mz.test();
+	//mz.test();
 
 	return 0;
 }

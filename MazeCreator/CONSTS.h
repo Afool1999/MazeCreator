@@ -4,12 +4,16 @@
 #include "Coordinate.h"
 #include "STJAlgorithm.h"
 
-#define _UNDER_TEST
+//#define _UNDER_TEST
 
 //	定义各类常量
 
 #define TRUE true
 #define FALSE false
+
+//	颜色区间
+#define _MAX_COLOR 255
+#define _MIN_COLOR 55
 
 //	定义房间最大长宽比
 #define _RATE (0.618)

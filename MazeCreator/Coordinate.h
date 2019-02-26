@@ -9,6 +9,8 @@ class Coordinate {
 
 	public:
 
+	int x, y;
+
 	Coordinate() :x(0), y(0) {};
 	Coordinate(const int &_x, const int &_y) :x(_x), y(_y) {};
 	void init(const int &_x, const int &_y);
@@ -32,9 +34,6 @@ class Coordinate {
 
 	void show();
 
-	private:
-	
-	int x, y;
 };
 
 void Coordinate::init(const int &_x, const int &_y)

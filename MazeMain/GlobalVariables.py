@@ -14,11 +14,11 @@ class GlobalVariables:
 
         self._PIX_HEIGHT = 11
 
-        self._CLOCK_TIME = 60
+        self._CLOCK_TIME = 20
 
         self._WIDTH = 31 * 2 + 1
         self._HEIGHT = 21 * 2 + 1
-        self._TRIES = 100
+        self._TRIES = 150
 
         self._BG_COLOR = (45, 45, 42)
 

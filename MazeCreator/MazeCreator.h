@@ -42,7 +42,8 @@ class MazeCreator
 					if(mazeMap[i][j].id()<0)printf("%d ", mazeMap[i][j].id());
 					else putchar('*');
 				}
-				else putchar('0');
+				else if (mazeMap[i][j].type() == WAY) putchar('*');
+					else putchar('0');
 			}
 			putchar('\n');
 		}
@@ -58,7 +59,9 @@ class MazeCreator
 
 	void generateRooms();
 	void generateWays();
-	void randomDFS(const int &x, const int &y, boolArray2D *isVisited);
+	void randomDFS(const Coordinate &cur, boolArray2D *isVisited);
+
+	bool isInMap(const Coordinate &cur);
 
 };
 
@@ -137,15 +140,41 @@ void MazeCreator::generateRooms()
 
 //	待完成
 
-void MazeCreator::randomDFS(const int &x, const int &y, boolArray2D *isVisited)
+void MazeCreator::randomDFS(const Coordinate &cur, boolArray2D *isVisited)
 {
+	//	产生随机方向
 	int randTimes = randomBetween(1, _MAX_STJ) - 1;
 
 	STJAlgorithm formList;
+	//printf("%d %d\n", cur.x, cur.y);
 	formList = STJ[randTimes];	
-	formList.print();
 
-	Coordinate cur(x, y);
+	Coordinate suc;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		int id = formList[i];
+
+		suc = cur;
+		suc.add(fx[id] << 1, fy[id] << 1);
+
+		if (isInMap(suc) && !(*isVisited)[suc.x >> 1][suc.y >> 1])
+		{
+			int mx = cur.x + fx[id];
+			int my = cur.y + fy[id];
+
+			//printf("%d %d %d %d %d %d\n", cur.x, cur.y, mx, my, suc.x, suc.y);
+
+			mazeMap[mx][my].setParrent(&(mazeMap[cur.x][cur.y]));
+			mazeMap[suc.x][suc.y].setParrent(&(mazeMap[mx][my]));
+
+			(*isVisited)[suc.x >> 1][suc.y >> 1] = TRUE;
+#ifndef _UNDER_TEST
+			show();
+#endif // _UNDER_TEST
+			randomDFS(suc, isVisited);
+		}
+	}
 
 }
 
@@ -164,13 +193,35 @@ void MazeCreator::generateWays()
 			{
 				isVisited[i][j] = TRUE;
 			}
+		}
+	}
+	for (int i = 0; i < _WIDTH; i++)
+	{
+		for (int j = 0; j < _HEIGHT; j++)
+		{
+			int x = i << 1 | 1;
+			int y = j << 1 | 1;
 
 			if (!isVisited[i][j])
 			{
-				randomDFS(i, j, &isVisited);
+				isVisited[i][j] = TRUE;
+				BLOCK *_parrent = &(mazeMap[x][y]);
+				//printf("%d %d\n", _parrent, &(mazeMap[x][y]));
+				Color pathColor;
+				pathColor.rand();
+				_parrent->init(NULL, WAY, pathColor);
+
+				Coordinate cur(x, y);
+#ifndef _UNDER_TEST
+				show();
+#endif // _UNDER_TEST
+				randomDFS(cur, &isVisited);
 			}
 		}
 	}
+}
 
-
+bool MazeCreator::isInMap(const Coordinate &cur)
+{
+	return cur.x > 0 && cur.y > 0 && cur.x < width && cur.y < height;
 }

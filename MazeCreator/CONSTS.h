@@ -18,21 +18,25 @@
 //	定义房间最大长宽比
 #define _RATE (0.618)
 
-//	定义 MazeMap 的长宽
+//	画布大小
 int _CANVAS_WIDTH = (40 << 1 | 1);
 int _CANVAS_HEIGHT = (25 << 1 | 1);
 
+//	原始大小
 int _WIDTH = 0;
 int _HEIGHT = 0;
 
-//	定义尝试生成房间的次数
+//	尝试生成房间的次数
 int _TRIES = (100);
 
-//	定义随机排列序号
+//	消除巷子数目
+int _BACKS = 0;
+
+//	随机排列序号
 #define _MAX_STJ 24
 STJAlgorithm STJ[_MAX_STJ];
 
-//	定义 BLOCK 类型
+//	BLOCK 类型
 #define _BLOCK_TYPES (4)
 char const *_TILES[_BLOCK_TYPES] = { "empty", "way", "room", "door" };
 #define EMPTY 0

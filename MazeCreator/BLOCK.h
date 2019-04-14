@@ -24,15 +24,16 @@ class BLOCK
 	Color color();
 	bool operator==(const BLOCK &other);
 
+	int blockId;
+	BLOCK *blockParrent;
+	
+
 	private:
 
-	int blockId;
 	int blockType;
 	Color blockColor;
-	BLOCK *blockParrent;
-
+	
 	BLOCK *getParrent();
-
 };
 
 BLOCK::BLOCK()
@@ -94,6 +95,7 @@ bool BLOCK::operator==(const BLOCK &other)
 	return blockType == other.blockType;
 }
 
+//	未使用路径压缩的并查集，能够使删除点更方便
 BLOCK *BLOCK::getParrent()
 {
 	if (this == blockParrent) return this;
@@ -101,6 +103,6 @@ BLOCK *BLOCK::getParrent()
 	blockId = _parrent->blockId;
 	blockType = _parrent->blockType;
 	blockColor = _parrent->blockColor;
-	blockParrent = _parrent;
+	//blockParrent = _parrent;
 	return _parrent;
 }

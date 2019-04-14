@@ -60,6 +60,7 @@ class MazeCreator
 	void generateRooms();
 	void generateWays();
 	void randomDFS(const Coordinate &cur, boolArray2D *isVisited);
+	void fillAlleys();
 
 	bool isInMap(const Coordinate &cur);
 
@@ -84,6 +85,7 @@ void MazeCreator::generate()
 	roomList.clear();
 	generateRooms();
 	generateWays();
+	fillAlleys();
 }
 
 void MazeCreator::show()
@@ -99,10 +101,9 @@ void MazeCreator::show()
 	//putchar('\n');
 }
 
+//	尝试生成房间
 void MazeCreator::generateRooms()
 {
-	//	不断尝试生成房间
-	
 #ifndef _UNDER_TEST
 	show();
 #endif // !_UNDER_TEST
@@ -138,8 +139,7 @@ void MazeCreator::generateRooms()
 	}
 }
 
-//	待完成
-
+//	随机方向深搜
 void MazeCreator::randomDFS(const Coordinate &cur, boolArray2D *isVisited)
 {
 	//	产生随机方向
@@ -178,6 +178,7 @@ void MazeCreator::randomDFS(const Coordinate &cur, boolArray2D *isVisited)
 
 }
 
+//	生成道路
 void MazeCreator::generateWays()
 {
 	boolArray2D isVisited(_WIDTH, _HEIGHT);
@@ -219,8 +220,106 @@ void MazeCreator::generateWays()
 			}
 		}
 	}
+
+	for(int i=0;i<width;i++)
+		for (int j = 0; j < height; j++)
+		{
+			if (mazeMap[i][j].type() == EMPTY)
+				mazeMap[i][j].blockId = -1;
+		}
 }
 
+void MazeCreator::fillAlleys()
+{
+	int maxLen = 11111;
+	Coordinate *front, *rear;
+	Coordinate *p = new Coordinate[maxLen];
+
+	front = rear = p;
+	//	topological sort
+	for (int i = 0; i < _WIDTH; i++)
+	{
+		for (int j = 0; j < _HEIGHT; j++)
+		{
+			int x = i << 1 | 1;
+			int y = j << 1 | 1;
+			Coordinate cur(x, y);
+			Coordinate suc;
+
+			if (mazeMap[x][y].type() == WAY)
+			{
+				int cnt = 0;
+				for (int k = 0; k < 4; k++)
+				{
+					suc = cur;
+					suc = suc.add(fx[k], fy[k]);
+
+					if (mazeMap[suc.x][suc.y].type() == EMPTY)
+						++cnt;
+				}
+
+				if (cnt >= 3)
+				{
+					*rear = cur;
+					rear++;
+					if ((rear - p) == maxLen)
+						rear = p;
+				}
+			}
+		}
+	}
+	//test();
+	while (front != rear)
+	{
+		BLOCK *cur = &(mazeMap[front->x][front->y]);
+		BLOCK *suc = cur;
+		Coordinate sucCor;
+
+		for (int i = 0; i < 4; i++)
+		{
+			int mx = fx[i] + front->x;
+			int my = fy[i] + front->y;
+			if (mazeMap[mx][my].type() != EMPTY)
+			{
+				suc = &(mazeMap[mx][my]);
+				sucCor = Coordinate(mx, my);
+				break;
+			}
+		}
+		
+		if (cur->blockParrent == cur)
+			suc->setParrent(suc);
+		else cur->init(-1, EMPTY, _BLACK);
+
+		int cnt = 0;
+		for (int k = 0; k < 4; k++)
+		{
+			int mx = fx[k] + sucCor.x;
+			int my = fy[k] + sucCor.y;
+			if (mazeMap[mx][my].type() == EMPTY)
+				++cnt;
+		}
+
+		if (cnt >= 3)
+		{
+			*rear = sucCor;
+			rear++;
+			if ((rear - p) == maxLen)
+				rear = p;
+		}
+		
+
+#ifndef _UNDER_TEST
+		show();
+#endif // _UNDER_TEST
+
+		--_BACKS;
+		if (_BACKS == 0)break;
+		front++;
+	}
+}
+
+//	判断点是否在地图内，是则返回 1
 bool MazeCreator::isInMap(const Coordinate &cur)
 {
 	return cur.x > 0 && cur.y > 0 && cur.x < width && cur.y < height;

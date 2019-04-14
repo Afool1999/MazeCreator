@@ -16,9 +16,10 @@ class GlobalVariables:
 
         self._CLOCK_TIME = 20
 
-        self._WIDTH = 31 * 2 + 1
-        self._HEIGHT = 21 * 2 + 1
+        self._WIDTH = 21 * 2 + 1
+        self._HEIGHT = 15 * 2 + 1
         self._TRIES = 150
+        self._BACKS = 50
 
         self._BG_COLOR = (45, 45, 42)
 

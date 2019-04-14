@@ -7,6 +7,7 @@ from GlobalVariables import GL
 from GlobalVariables import GlobalVariables as GLOB
 from SHAPE import SHAPE as Shape
 import SHAPE
+import time
 
 
 class BOARD(QFrame):
@@ -111,7 +112,8 @@ class BOARD(QFrame):
             if (self.isInitialed == True):
 
                 os.system('MazeCreator.exe' + ' ' + str(GL._WIDTH)
-                    + ' ' + str(GL._HEIGHT) + ' ' + str(GL._TRIES))
+                    + ' ' + str(GL._HEIGHT) + ' ' + str(GL._TRIES) + ' ' + str(GL._BACKS))
+                time.sleep(1)
                 GL.initGL()
                 self.clearBoard()
                 self.start()

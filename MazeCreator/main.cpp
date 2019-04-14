@@ -33,9 +33,13 @@ int main(int argc, char *argv[])
 	{
 		_CANVAS_WIDTH = stringToInt(argv[1]);
 		_CANVAS_HEIGHT = stringToInt(argv[2]);
-		if (argc > 3)
+		if (argc == 4)
 		{
 			_TRIES = stringToInt(argv[3]);
+		}
+		else
+		{
+			_BACKS = stringToInt(argv[4]);
 		}
 	}
 
